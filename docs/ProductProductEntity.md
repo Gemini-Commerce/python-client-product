@@ -24,6 +24,7 @@ Name | Type | Description | Notes
 **media_gallery**| [**ProductMediaGallery**](ProductMediaGallery.md) |   | [optional]
 **max_saleable_quantity**| **int** |   | [optional]
 **assets**| [**ProductAssets**](ProductAssets.md) |   | [optional]
+**in_review**| **bool** |   | [optional]
 **created_at**| **str** |   | [optional]
 **updated_at**| **str** |   | [optional]
 

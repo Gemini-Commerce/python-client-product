@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **media_variant_attributes**| **List[str]** |   | [optional]
 **attributes**| [**Dict[str, ProtobufAny]**](ProtobufAny.md) |   | [optional]
 **variants**| [**Dict[str, ProductProductVariant]**](ProductProductVariant.md) |   | [optional]
+**in_review**| **bool** |   | [optional]
 
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

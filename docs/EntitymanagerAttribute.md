@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **group_code**| **str** |   | [optional]
 **title**| **Dict[str, str]** |   | [optional]
 **render_as**| [**EntitymanagerRenderAs**](EntitymanagerRenderAs.md) |  for more information please, see Model/EntitymanagerRenderAs.php  | [optional]
+**ai_context**| [**EntitymanagerAiContext**](EntitymanagerAiContext.md) |   | [optional]
 
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
