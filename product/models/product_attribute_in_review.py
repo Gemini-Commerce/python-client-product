@@ -19,17 +19,14 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
-from pydantic import BaseModel, StrictBool, StrictFloat, StrictInt, StrictStr
-from pydantic import Field
 from product.models.attribute_in_review_string import AttributeInReviewString
 from product.models.product_attribute_in_review_error import ProductAttributeInReviewError
 from product.models.product_attribute_in_review_job_type import ProductAttributeInReviewJobType
 from product.models.product_attribute_in_review_source import ProductAttributeInReviewSource
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ProductAttributeInReview(BaseModel):
     """
@@ -42,18 +39,19 @@ class ProductAttributeInReview(BaseModel):
     float32: Optional[Union[StrictFloat, StrictInt]] = None
     float64: Optional[Union[StrictFloat, StrictInt]] = None
     boolean: Optional[StrictBool] = None
-    source: Optional[ProductAttributeInReviewSource] = None
+    source: Optional[ProductAttributeInReviewSource] = ProductAttributeInReviewSource.UNKNOWN
     created_at: Optional[datetime] = Field(default=None, alias="createdAt")
     job_id: Optional[StrictStr] = Field(default=None, alias="jobId")
-    job_type: Optional[ProductAttributeInReviewJobType] = Field(default=None, alias="jobType")
+    job_type: Optional[ProductAttributeInReviewJobType] = Field(default=ProductAttributeInReviewJobType.UNKNOWN, alias="jobType")
     error: Optional[ProductAttributeInReviewError] = None
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["code", "string", "int32", "int64", "float32", "float64", "boolean", "source", "createdAt", "jobId", "jobType", "error"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -66,7 +64,7 @@ class ProductAttributeInReview(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ProductAttributeInReview from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -79,11 +77,15 @@ class ProductAttributeInReview(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of string
@@ -92,10 +94,15 @@ class ProductAttributeInReview(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of error
         if self.error:
             _dict['error'] = self.error.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ProductAttributeInReview from a dict"""
         if obj is None:
             return None
@@ -105,18 +112,23 @@ class ProductAttributeInReview(BaseModel):
 
         _obj = cls.model_validate({
             "code": obj.get("code"),
-            "string": AttributeInReviewString.from_dict(obj.get("string")) if obj.get("string") is not None else None,
+            "string": AttributeInReviewString.from_dict(obj["string"]) if obj.get("string") is not None else None,
             "int32": obj.get("int32"),
             "int64": obj.get("int64"),
             "float32": obj.get("float32"),
             "float64": obj.get("float64"),
             "boolean": obj.get("boolean"),
-            "source": obj.get("source"),
+            "source": obj.get("source") if obj.get("source") is not None else ProductAttributeInReviewSource.UNKNOWN,
             "createdAt": obj.get("createdAt"),
             "jobId": obj.get("jobId"),
-            "jobType": obj.get("jobType"),
-            "error": ProductAttributeInReviewError.from_dict(obj.get("error")) if obj.get("error") is not None else None
+            "jobType": obj.get("jobType") if obj.get("jobType") is not None else ProductAttributeInReviewJobType.UNKNOWN,
+            "error": ProductAttributeInReviewError.from_dict(obj["error"]) if obj.get("error") is not None else None
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

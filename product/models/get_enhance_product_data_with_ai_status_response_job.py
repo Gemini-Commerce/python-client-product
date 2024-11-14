@@ -19,35 +19,33 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from product.models.product_attribute_in_review_job_status import ProductAttributeInReviewJobStatus
 from product.models.product_attribute_in_review_job_type import ProductAttributeInReviewJobType
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class GetEnhanceProductDataWithAIStatusResponseJob(BaseModel):
     """
     GetEnhanceProductDataWithAIStatusResponseJob
     """ # noqa: E501
     parent_id: Optional[StrictStr] = Field(default=None, alias="parentId")
-    job_type: Optional[ProductAttributeInReviewJobType] = Field(default=None, alias="jobType")
-    job_status: Optional[ProductAttributeInReviewJobStatus] = Field(default=None, alias="jobStatus")
+    job_type: Optional[ProductAttributeInReviewJobType] = Field(default=ProductAttributeInReviewJobType.UNKNOWN, alias="jobType")
+    job_status: Optional[ProductAttributeInReviewJobStatus] = Field(default=ProductAttributeInReviewJobStatus.UNKNOWN, alias="jobStatus")
     id: Optional[StrictStr] = None
     started_at: Optional[datetime] = Field(default=None, alias="startedAt")
     executed_at: Optional[datetime] = Field(default=None, alias="executedAt")
     finished_at: Optional[datetime] = Field(default=None, alias="finishedAt")
     product_id: Optional[StrictStr] = Field(default=None, alias="productId")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["parentId", "jobType", "jobStatus", "id", "startedAt", "executedAt", "finishedAt", "productId"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -60,7 +58,7 @@ class GetEnhanceProductDataWithAIStatusResponseJob(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of GetEnhanceProductDataWithAIStatusResponseJob from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -73,17 +71,26 @@ class GetEnhanceProductDataWithAIStatusResponseJob(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of GetEnhanceProductDataWithAIStatusResponseJob from a dict"""
         if obj is None:
             return None
@@ -93,14 +100,19 @@ class GetEnhanceProductDataWithAIStatusResponseJob(BaseModel):
 
         _obj = cls.model_validate({
             "parentId": obj.get("parentId"),
-            "jobType": obj.get("jobType"),
-            "jobStatus": obj.get("jobStatus"),
+            "jobType": obj.get("jobType") if obj.get("jobType") is not None else ProductAttributeInReviewJobType.UNKNOWN,
+            "jobStatus": obj.get("jobStatus") if obj.get("jobStatus") is not None else ProductAttributeInReviewJobStatus.UNKNOWN,
             "id": obj.get("id"),
             "startedAt": obj.get("startedAt"),
             "executedAt": obj.get("executedAt"),
             "finishedAt": obj.get("finishedAt"),
             "productId": obj.get("productId")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

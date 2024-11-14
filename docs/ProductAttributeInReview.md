@@ -13,10 +13,10 @@ Name | Type | Description | Notes
 **float32**| **float** |   | [optional]
 **float64**| **float** |   | [optional]
 **boolean**| **bool** |   | [optional]
-**source**| [**ProductAttributeInReviewSource**](ProductAttributeInReviewSource.md) |  for more information please, see Model/ProductAttributeInReviewSource.php  | [optional]
+**source**| [**ProductAttributeInReviewSource**](ProductAttributeInReviewSource.md) |  for more information please, see Model/ProductAttributeInReviewSource.php  | [optional] [default to ProductAttributeInReviewSource.UNKNOWN]
 **created_at**| **datetime** |   | [optional]
 **job_id**| **str** |   | [optional]
-**job_type**| [**ProductAttributeInReviewJobType**](ProductAttributeInReviewJobType.md) |  for more information please, see Model/ProductAttributeInReviewJobType.php  | [optional]
+**job_type**| [**ProductAttributeInReviewJobType**](ProductAttributeInReviewJobType.md) |  for more information please, see Model/ProductAttributeInReviewJobType.php  | [optional] [default to ProductAttributeInReviewJobType.UNKNOWN]
 **error**| [**ProductAttributeInReviewError**](ProductAttributeInReviewError.md) |   | [optional]
 
 

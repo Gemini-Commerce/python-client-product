@@ -18,16 +18,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
-from pydantic import Field
 from product.models.product_language_code import ProductLanguageCode
 from product.models.translate_action_attribute_codes_to_translate import TranslateActionAttributeCodesToTranslate
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ProductTranslateAction(BaseModel):
     """
@@ -35,15 +31,16 @@ class ProductTranslateAction(BaseModel):
     """ # noqa: E501
     all: Optional[Dict[str, Any]] = None
     attribute_codes: Optional[TranslateActionAttributeCodesToTranslate] = Field(default=None, alias="attributeCodes")
-    source_language: Optional[ProductLanguageCode] = Field(default=None, alias="sourceLanguage")
-    target_language: Optional[ProductLanguageCode] = Field(default=None, alias="targetLanguage")
+    source_language: Optional[ProductLanguageCode] = Field(default=ProductLanguageCode.UNKNOWN, alias="sourceLanguage")
+    target_language: Optional[ProductLanguageCode] = Field(default=ProductLanguageCode.UNKNOWN, alias="targetLanguage")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["all", "attributeCodes", "sourceLanguage", "targetLanguage"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -56,7 +53,7 @@ class ProductTranslateAction(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ProductTranslateAction from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -69,20 +66,29 @@ class ProductTranslateAction(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of attribute_codes
         if self.attribute_codes:
             _dict['attributeCodes'] = self.attribute_codes.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ProductTranslateAction from a dict"""
         if obj is None:
             return None
@@ -92,10 +98,15 @@ class ProductTranslateAction(BaseModel):
 
         _obj = cls.model_validate({
             "all": obj.get("all"),
-            "attributeCodes": TranslateActionAttributeCodesToTranslate.from_dict(obj.get("attributeCodes")) if obj.get("attributeCodes") is not None else None,
-            "sourceLanguage": obj.get("sourceLanguage"),
-            "targetLanguage": obj.get("targetLanguage")
+            "attributeCodes": TranslateActionAttributeCodesToTranslate.from_dict(obj["attributeCodes"]) if obj.get("attributeCodes") is not None else None,
+            "sourceLanguage": obj.get("sourceLanguage") if obj.get("sourceLanguage") is not None else ProductLanguageCode.UNKNOWN,
+            "targetLanguage": obj.get("targetLanguage") if obj.get("targetLanguage") is not None else ProductLanguageCode.UNKNOWN
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

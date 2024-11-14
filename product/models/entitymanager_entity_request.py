@@ -18,15 +18,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from product.models.entitymanager_entity_identifier import EntitymanagerEntityIdentifier
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class EntitymanagerEntityRequest(BaseModel):
     """
@@ -35,13 +31,14 @@ class EntitymanagerEntityRequest(BaseModel):
     tenant_id: Optional[StrictStr] = Field(default=None, alias="tenantId")
     entity_data: Optional[EntitymanagerEntityIdentifier] = Field(default=None, alias="entityData")
     entity_id: Optional[StrictStr] = Field(default=None, alias="entityId")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["tenantId", "entityData", "entityId"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -54,7 +51,7 @@ class EntitymanagerEntityRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of EntitymanagerEntityRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -67,20 +64,29 @@ class EntitymanagerEntityRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of entity_data
         if self.entity_data:
             _dict['entityData'] = self.entity_data.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of EntitymanagerEntityRequest from a dict"""
         if obj is None:
             return None
@@ -90,9 +96,14 @@ class EntitymanagerEntityRequest(BaseModel):
 
         _obj = cls.model_validate({
             "tenantId": obj.get("tenantId"),
-            "entityData": EntitymanagerEntityIdentifier.from_dict(obj.get("entityData")) if obj.get("entityData") is not None else None,
+            "entityData": EntitymanagerEntityIdentifier.from_dict(obj["entityData"]) if obj.get("entityData") is not None else None,
             "entityId": obj.get("entityId")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

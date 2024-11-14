@@ -7,7 +7,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code**| **str** |   | [optional]
-**type**| [**ProductAttributeToEnrichType**](ProductAttributeToEnrichType.md) |  for more information please, see Model/ProductAttributeToEnrichType.php  | [optional]
+**type**| [**ProductAttributeToEnrichType**](ProductAttributeToEnrichType.md) |  for more information please, see Model/ProductAttributeToEnrichType.php  | [optional] [default to ProductAttributeToEnrichType.UNKNOWN]
 **can_create_value**| **bool** |   | [optional]
 
 

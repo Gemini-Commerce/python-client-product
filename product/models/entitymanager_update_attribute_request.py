@@ -18,16 +18,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from product.models.entitymanager_entity_identifier import EntitymanagerEntityIdentifier
 from product.models.entitymanager_update_attribute_request_payload import EntitymanagerUpdateAttributeRequestPayload
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class EntitymanagerUpdateAttributeRequest(BaseModel):
     """
@@ -39,13 +35,14 @@ class EntitymanagerUpdateAttributeRequest(BaseModel):
     entity_id: Optional[StrictStr] = Field(default=None, alias="entityId")
     payload: Optional[EntitymanagerUpdateAttributeRequestPayload] = None
     field_mask: Optional[StrictStr] = Field(default=None, alias="fieldMask")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["tenantId", "code", "entityData", "entityId", "payload", "fieldMask"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -58,7 +55,7 @@ class EntitymanagerUpdateAttributeRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of EntitymanagerUpdateAttributeRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -71,11 +68,15 @@ class EntitymanagerUpdateAttributeRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of entity_data
@@ -84,10 +85,15 @@ class EntitymanagerUpdateAttributeRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of payload
         if self.payload:
             _dict['payload'] = self.payload.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of EntitymanagerUpdateAttributeRequest from a dict"""
         if obj is None:
             return None
@@ -98,11 +104,16 @@ class EntitymanagerUpdateAttributeRequest(BaseModel):
         _obj = cls.model_validate({
             "tenantId": obj.get("tenantId"),
             "code": obj.get("code"),
-            "entityData": EntitymanagerEntityIdentifier.from_dict(obj.get("entityData")) if obj.get("entityData") is not None else None,
+            "entityData": EntitymanagerEntityIdentifier.from_dict(obj["entityData"]) if obj.get("entityData") is not None else None,
             "entityId": obj.get("entityId"),
-            "payload": EntitymanagerUpdateAttributeRequestPayload.from_dict(obj.get("payload")) if obj.get("payload") is not None else None,
+            "payload": EntitymanagerUpdateAttributeRequestPayload.from_dict(obj["payload"]) if obj.get("payload") is not None else None,
             "fieldMask": obj.get("fieldMask")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

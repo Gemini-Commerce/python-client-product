@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **sort**| **int** |   | [optional]
 **group_code**| **str** |   | [optional]
 **title**| **Dict[str, str]** |   | [optional]
-**render_as**| [**EntitymanagerRenderAs**](EntitymanagerRenderAs.md) |  for more information please, see Model/EntitymanagerRenderAs.php  | [optional]
+**render_as**| [**EntitymanagerRenderAs**](EntitymanagerRenderAs.md) |  for more information please, see Model/EntitymanagerRenderAs.php  | [optional] [default to EntitymanagerRenderAs.DEFAULT]
 **ai_context**| [**EntitymanagerAiContext**](EntitymanagerAiContext.md) |   | [optional]
 
 

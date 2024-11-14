@@ -18,15 +18,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from product.models.protobuf_any import ProtobufAny
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ProductBulkUpdateResponseV2Response(BaseModel):
     """
@@ -34,13 +30,14 @@ class ProductBulkUpdateResponseV2Response(BaseModel):
     """ # noqa: E501
     product_id: Optional[StrictStr] = Field(default=None, alias="productId")
     attributes: Optional[Dict[str, ProtobufAny]] = None
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["productId", "attributes"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -53,7 +50,7 @@ class ProductBulkUpdateResponseV2Response(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ProductBulkUpdateResponseV2Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -66,24 +63,33 @@ class ProductBulkUpdateResponseV2Response(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each value in attributes (dict)
         _field_dict = {}
         if self.attributes:
-            for _key in self.attributes:
-                if self.attributes[_key]:
-                    _field_dict[_key] = self.attributes[_key].to_dict()
+            for _key_attributes in self.attributes:
+                if self.attributes[_key_attributes]:
+                    _field_dict[_key_attributes] = self.attributes[_key_attributes].to_dict()
             _dict['attributes'] = _field_dict
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ProductBulkUpdateResponseV2Response from a dict"""
         if obj is None:
             return None
@@ -95,11 +101,16 @@ class ProductBulkUpdateResponseV2Response(BaseModel):
             "productId": obj.get("productId"),
             "attributes": dict(
                 (_k, ProtobufAny.from_dict(_v))
-                for _k, _v in obj.get("attributes").items()
+                for _k, _v in obj["attributes"].items()
             )
             if obj.get("attributes") is not None
             else None
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

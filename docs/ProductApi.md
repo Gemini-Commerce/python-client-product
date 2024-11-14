@@ -65,8 +65,6 @@ The AddMediaGalleryEntry endpoint allows users to add a new media entry to the g
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_add_media_gallery_entry_request import ProductAddMediaGalleryEntryRequest
 from product.models.product_add_media_gallery_entry_response import ProductAddMediaGalleryEntryResponse
@@ -150,8 +148,6 @@ The BulkAddAssetsEntries endpoint allows users to add assets. This operation is 
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_bulk_add_assets_entries_request import ProductBulkAddAssetsEntriesRequest
 from product.models.product_bulk_add_assets_entries_response import ProductBulkAddAssetsEntriesResponse
@@ -235,8 +231,6 @@ This operation is asynchronous and may complete after the response.
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_bulk_delete_products_request import ProductBulkDeleteProductsRequest
 from product.rest import ApiException
@@ -319,8 +313,6 @@ The BulkEnhanceProductDataWithAI endpoint allows users to enhance product data u
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_bulk_enhance_product_data_with_ai_request import ProductBulkEnhanceProductDataWithAIRequest
 from product.rest import ApiException
@@ -403,8 +395,6 @@ The BulkRemoveAssetsEntries endpoint allows users to remove assets. This operati
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_bulk_remove_assets_entries_request import ProductBulkRemoveAssetsEntriesRequest
 from product.rest import ApiException
@@ -487,8 +477,6 @@ The BulkUpdateAssetsEntries endpoint allows users to update assets. This operati
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_bulk_update_assets_entries_request import ProductBulkUpdateAssetsEntriesRequest
 from product.models.product_bulk_update_assets_entries_response import ProductBulkUpdateAssetsEntriesResponse
@@ -572,8 +560,6 @@ Version 2 of bulk updates for product attributes with enhanced payload structure
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_bulk_update_request_v2 import ProductBulkUpdateRequestV2
 from product.models.product_bulk_update_response import ProductBulkUpdateResponse
@@ -657,8 +643,6 @@ Create attribute options with specified codes, values, and swatches. Returns cre
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_create_attribute_options_request import EntitymanagerCreateAttributeOptionsRequest
 from product.models.entitymanager_create_attribute_options_response import EntitymanagerCreateAttributeOptionsResponse
@@ -742,8 +726,6 @@ The CreateEntity endpoint allows users to define and create a new entity with cu
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_create_entity_response import EntitymanagerCreateEntityResponse
 from product.models.entitymanager_entity import EntitymanagerEntity
@@ -826,8 +808,6 @@ The CreateOptionsList endpoint allows users to create an OptionList, which repre
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_create_options_list_request import EntitymanagerCreateOptionsListRequest
 from product.models.entitymanager_create_options_list_response import EntitymanagerCreateOptionsListResponse
@@ -911,8 +891,6 @@ The CreateProductWithAI endpoint allows users to create a new product within the
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_create_product_with_ai_request import ProductCreateProductWithAIRequest
 from product.models.product_create_product_with_ai_response import ProductCreateProductWithAIResponse
@@ -996,8 +974,6 @@ Retrieve attribute option details by providing the tenant ID, list code, and opt
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_get_attribute_option_request import EntitymanagerGetAttributeOptionRequest
 from product.models.entitymanager_get_attribute_option_response import EntitymanagerGetAttributeOptionResponse
@@ -1081,8 +1057,6 @@ Retrieve a list of attribute options based on the provided tenant ID and list co
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_get_attribute_options_request import EntitymanagerGetAttributeOptionsRequest
 from product.models.entitymanager_get_attribute_options_response import EntitymanagerGetAttributeOptionsResponse
@@ -1166,8 +1140,6 @@ Retrieve details of an entity by providing the tenant ID and either entity data 
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_entity import EntitymanagerEntity
 from product.models.entitymanager_entity_request import EntitymanagerEntityRequest
@@ -1251,8 +1223,6 @@ Retrieve option lists.
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_get_options_list_request import EntitymanagerGetOptionsListRequest
 from product.models.entitymanager_get_options_list_response import EntitymanagerGetOptionsListResponse
@@ -1336,8 +1306,6 @@ The GetProduct endpoint enables users to retrieve a product from the system. By 
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_get_product_request import ProductGetProductRequest
 from product.models.product_get_product_response import ProductGetProductResponse
@@ -1421,8 +1389,6 @@ The GetProductByCode endpoint enables users to retrieve a product from the syste
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_get_product_by_code_request import ProductGetProductByCodeRequest
 from product.models.product_get_product_by_code_response import ProductGetProductByCodeResponse
@@ -1506,8 +1472,6 @@ The GetProductByUrlKey endpoint enables users to retrieve a product from the sys
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_get_product_by_url_key_request import ProductGetProductByUrlKeyRequest
 from product.models.product_get_product_by_url_key_response import ProductGetProductByUrlKeyResponse
@@ -1591,8 +1555,6 @@ The GetProductDataInReview endpoint allows users to retrieve product data that i
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_get_product_data_in_review_request import ProductGetProductDataInReviewRequest
 from product.models.product_get_product_data_in_review_response import ProductGetProductDataInReviewResponse
@@ -1674,8 +1636,6 @@ List Attribute Options
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_list_attribute_options_request import EntitymanagerListAttributeOptionsRequest
 from product.models.entitymanager_list_attribute_options_response import EntitymanagerListAttributeOptionsResponse
@@ -1757,8 +1717,6 @@ List Entities
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_list_entities_request import EntitymanagerListEntitiesRequest
 from product.models.entitymanager_list_entities_response import EntitymanagerListEntitiesResponse
@@ -1842,8 +1800,6 @@ The ListOptionsLists endpoint allows users to retrieve a list of OptionLists ava
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_list_options_lists_request import EntitymanagerListOptionsListsRequest
 from product.models.entitymanager_list_options_lists_response import EntitymanagerListOptionsListsResponse
@@ -1927,8 +1883,6 @@ The ListProducts endpoint provides users with the ability to retrieve a filtered
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_list_products_request import ProductListProductsRequest
 from product.models.product_list_products_response import ProductListProductsResponse
@@ -2012,8 +1966,6 @@ The ListProductsByIds endpoint allows users to retrieve a list of products based
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_list_products_by_ids_request import ProductListProductsByIdsRequest
 from product.models.product_list_products_by_ids_response import ProductListProductsByIdsResponse
@@ -2095,8 +2047,6 @@ List Products By Sku
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_list_products_by_sku_request import ProductListProductsBySkuRequest
 from product.models.product_list_products_by_sku_response import ProductListProductsBySkuResponse
@@ -2178,8 +2128,6 @@ List Product Variants By Sku
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_list_variants_by_sku_request import ProductListVariantsBySkuRequest
 from product.models.product_list_variants_by_sku_response import ProductListVariantsBySkuResponse
@@ -2263,8 +2211,6 @@ Allow creation of multiple attributes. If any attribute is invalid, an error wil
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_bulk_create_attribute_request import EntitymanagerBulkCreateAttributeRequest
 from product.models.entitymanager_bulk_create_attribute_response import EntitymanagerBulkCreateAttributeResponse
@@ -2345,8 +2291,6 @@ This operation is asynchronous and may complete after the response.
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_bulk_update_request import ProductBulkUpdateRequest
 from product.models.product_bulk_update_response import ProductBulkUpdateResponse
@@ -2425,8 +2369,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_attribute_group import EntitymanagerAttributeGroup
 from product.models.entitymanager_create_attribute_group_request import EntitymanagerCreateAttributeGroupRequest
@@ -2505,8 +2447,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_create_product_request import ProductCreateProductRequest
 from product.models.product_create_product_response import ProductCreateProductResponse
@@ -2585,8 +2525,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_create_product_request_v2 import ProductCreateProductRequestV2
 from product.models.product_create_product_response_v2 import ProductCreateProductResponseV2
@@ -2665,8 +2603,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_delete_request import ProductDeleteRequest
 from product.models.product_delete_response import ProductDeleteResponse
@@ -2745,8 +2681,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_delete_attribute_request import EntitymanagerDeleteAttributeRequest
 from product.rest import ApiException
@@ -2824,8 +2758,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_delete_product_request import ProductDeleteProductRequest
 from product.rest import ApiException
@@ -2903,8 +2835,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_attribute_group import EntitymanagerAttributeGroup
 from product.models.entitymanager_get_attribute_group_request import EntitymanagerGetAttributeGroupRequest
@@ -2983,8 +2913,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_list_attribute_groups_request import EntitymanagerListAttributeGroupsRequest
 from product.models.entitymanager_list_attribute_groups_response import EntitymanagerListAttributeGroupsResponse
@@ -3063,8 +2991,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_attribute import EntitymanagerAttribute
 from product.models.entitymanager_update_attribute_request import EntitymanagerUpdateAttributeRequest
@@ -3143,8 +3069,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_attribute_group import EntitymanagerAttributeGroup
 from product.models.entitymanager_update_attribute_group_request import EntitymanagerUpdateAttributeGroupRequest
@@ -3223,8 +3147,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_update_product_request import ProductUpdateProductRequest
 from product.models.product_update_product_response import ProductUpdateProductResponse
@@ -3303,8 +3225,6 @@ Name | Type | Description  | Notes
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_update_product_request_v2 import ProductUpdateProductRequestV2
 from product.rest import ApiException
@@ -3384,8 +3304,6 @@ The RemoveMediaGalleryEntry endpoint allows users to remove a specific media ent
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_remove_media_gallery_entry_request import ProductRemoveMediaGalleryEntryRequest
 from product.rest import ApiException
@@ -3466,8 +3384,6 @@ Update Attribute Options
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_update_attribute_options_request import EntitymanagerUpdateAttributeOptionsRequest
 from product.models.entitymanager_update_attribute_options_response import EntitymanagerUpdateAttributeOptionsResponse
@@ -3551,8 +3467,6 @@ The GetEnhanceProductDataWithAIStatus endpoint allows users to retrieve the stat
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_get_enhance_product_data_with_ai_status_request import ProductGetEnhanceProductDataWithAIStatusRequest
 from product.models.product_get_enhance_product_data_with_ai_status_response import ProductGetEnhanceProductDataWithAIStatusResponse
@@ -3636,8 +3550,6 @@ The UpdateDataToBeReviewed endpoint allows users to update product data that is 
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_update_data_to_be_reviewed_request import ProductUpdateDataToBeReviewedRequest
 from product.rest import ApiException
@@ -3720,8 +3632,6 @@ The UpdateMediaGalleryEntry endpoint allows users to modify and update a specifi
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_update_media_gallery_entry_request import ProductUpdateMediaGalleryEntryRequest
 from product.rest import ApiException
@@ -3802,8 +3712,6 @@ Update Options List
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.entitymanager_update_options_list_request import EntitymanagerUpdateOptionsListRequest
 from product.models.entitymanager_update_options_list_response import EntitymanagerUpdateOptionsListResponse
@@ -3887,8 +3795,6 @@ The UpdateProductWithAI endpoint allows users to update an existing product with
 * Api Key Authentication (Authorization):
 
 ```python
-import time
-import os
 import product
 from product.models.product_update_product_with_ai_request import ProductUpdateProductWithAIRequest
 from product.models.product_update_product_with_ai_response import ProductUpdateProductWithAIResponse

@@ -18,18 +18,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, field_validator
-from pydantic import Field
 from typing_extensions import Annotated
 from product.models.product_localized_text import ProductLocalizedText
 from product.models.product_product_variant import ProductProductVariant
 from product.models.protobuf_any import ProtobufAny
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ProductCreateProductRequest(BaseModel):
     """
@@ -49,6 +45,7 @@ class ProductCreateProductRequest(BaseModel):
     media_variant_attributes: Optional[List[StrictStr]] = Field(default=None, alias="mediaVariantAttributes")
     attributes: Optional[Dict[str, ProtobufAny]] = Field(default=None, description="Contains a map of additional attributes associated with the product, where the key is the attribute name and the value is any type of value.")
     variants: Optional[Dict[str, ProductProductVariant]] = Field(default=None, description="Represents a map of product variants associated with the product, where the key is the variant ID or code, and the value is a ProductVariant message.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["tenantId", "entityType", "entityCode", "code", "isConfigurable", "variantAttributes", "isVirtual", "isGiftcard", "hasConfigurator", "urlKey", "maxSaleableQuantity", "mediaVariantAttributes", "attributes", "variants"]
 
     @field_validator('tenant_id')
@@ -61,11 +58,11 @@ class ProductCreateProductRequest(BaseModel):
             raise ValueError(r"must validate the regular expression /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/")
         return value
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -78,7 +75,7 @@ class ProductCreateProductRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ProductCreateProductRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -91,11 +88,15 @@ class ProductCreateProductRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of url_key
@@ -104,21 +105,26 @@ class ProductCreateProductRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each value in attributes (dict)
         _field_dict = {}
         if self.attributes:
-            for _key in self.attributes:
-                if self.attributes[_key]:
-                    _field_dict[_key] = self.attributes[_key].to_dict()
+            for _key_attributes in self.attributes:
+                if self.attributes[_key_attributes]:
+                    _field_dict[_key_attributes] = self.attributes[_key_attributes].to_dict()
             _dict['attributes'] = _field_dict
         # override the default output from pydantic by calling `to_dict()` of each value in variants (dict)
         _field_dict = {}
         if self.variants:
-            for _key in self.variants:
-                if self.variants[_key]:
-                    _field_dict[_key] = self.variants[_key].to_dict()
+            for _key_variants in self.variants:
+                if self.variants[_key_variants]:
+                    _field_dict[_key_variants] = self.variants[_key_variants].to_dict()
             _dict['variants'] = _field_dict
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ProductCreateProductRequest from a dict"""
         if obj is None:
             return None
@@ -136,22 +142,27 @@ class ProductCreateProductRequest(BaseModel):
             "isVirtual": obj.get("isVirtual"),
             "isGiftcard": obj.get("isGiftcard"),
             "hasConfigurator": obj.get("hasConfigurator"),
-            "urlKey": ProductLocalizedText.from_dict(obj.get("urlKey")) if obj.get("urlKey") is not None else None,
+            "urlKey": ProductLocalizedText.from_dict(obj["urlKey"]) if obj.get("urlKey") is not None else None,
             "maxSaleableQuantity": obj.get("maxSaleableQuantity"),
             "mediaVariantAttributes": obj.get("mediaVariantAttributes"),
             "attributes": dict(
                 (_k, ProtobufAny.from_dict(_v))
-                for _k, _v in obj.get("attributes").items()
+                for _k, _v in obj["attributes"].items()
             )
             if obj.get("attributes") is not None
             else None,
             "variants": dict(
                 (_k, ProductProductVariant.from_dict(_v))
-                for _k, _v in obj.get("variants").items()
+                for _k, _v in obj["variants"].items()
             )
             if obj.get("variants") is not None
             else None
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 
